@@ -30,7 +30,7 @@
     <div class="container">
     <a class="navbar-brand" href="<?=BASE_URL?>">
         <img src="<?=BASE_URL?>/img/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
-        TEC Internship 2018
+        Penlianan TEC 2018
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".mobile-open" aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -43,12 +43,6 @@
         </ul>
 
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item logged-in">
-                <a class="nav-link" href="<?=BASE_URL?>/quiz">Quiz</a>
-            </li>
-            <li class="nav-item logged-in">
-                <a class="nav-link" href="<?=BASE_URL?>/assignment">Assignment</a>
-            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="loginMenuNav" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-user-circle"></i>
@@ -83,9 +77,6 @@
                         <div><b id="pname"></b></div>
                         <div id="ptecregno"></div>
                     </div>
-                    <!-- TODO add profile page -->
-                    <a class="dropdown-item" href="<?=BASE_URL?>/profile">Profil</a>
-
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" id="logoutButton">Logout</a>
                 </div>

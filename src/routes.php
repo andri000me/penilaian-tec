@@ -3,12 +3,13 @@
 use Slim\Http\Request;
 use Slim\Http\Response;
 
+define("BASE_URL", "http://localhost/Server/nilai");
+define("SERVER_URL", "http://localhost/Server/kader/public/index.php");
+
 // Routes
 
-$app->get('/[{name}]', function (Request $request, Response $response, array $args) {
-    // Sample log message
-    $this->logger->info("Slim-Skeleton '/' route");
-
-    // Render index view
-    return $this->renderer->render($response, 'index.phtml', $args);
+$app->get('/', function (Request $request, Response $response, array $args) {
+  $this->renderer->render($response, "/header.php", $args);
+  $this->renderer->render($response, "/home.php", $args);
+  return $this->renderer->render($response, "/footer.php", $args);
 });
