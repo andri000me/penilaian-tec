@@ -11,22 +11,9 @@
 
   <div class="row">
     <div class = "col-md-8 offset-md-2">
-
-      <div id="q-1" class="card mb-3">
-        <h5 class="card-header">1 - Tony Sabuga</h5>
-        <div class="card-body">
-          <div class="row">
-            <div class="col-sm-4">
-              <img class="mx-auto" id="profile" src="">
-            </div>
-            <form class="col-sm-8 my-auto">
-              <div class="form-group">
-                <label for="slider-nilai">Nilai</label>
-                <input type="range" class="form-control-range" min=1 max=10></input>
-              </div>
-            </form>
-          </div>
-        </div>
+      <div id="loaderAnim" class="loader loader-big"></div>
+      <h2 id="loadText" class="text-center">Loading</h2>
+      <div id="cardLoc">
 
       </div>
       <form id="submitForm">
@@ -36,6 +23,7 @@
         </div>
       </form>
     </div>
+  </div>
   </div>
 </div>
 
