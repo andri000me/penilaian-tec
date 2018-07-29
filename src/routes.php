@@ -13,3 +13,33 @@ $app->get('/', function (Request $request, Response $response, array $args) {
   $this->renderer->render($response, "/home.php", $args);
   return $this->renderer->render($response, "/footer.php", $args);
 });
+
+$app->post('/submitScore', function (Request $request, Response $response, array $args) {
+  $scores = $request->getParam("scores");
+  $uid = $request->getParam("uid");
+
+  $sql = "INSERT INTO `scores` (`uid_from`,`uid_to`,`score`) VALUES ";
+
+
+  $valueArray = [];
+  $sqlArray = [];
+  foreach ($scores as $score) {
+    $sqlArray[] = "(". $uid . ", ?, ?)";
+    $valueArray[] = $score["target"];
+    $valueArray[] = $score["score"];
+  }
+
+  $sql = $sql + implode(",", $sqlArray);
+
+  try {
+    $db = $this->get('db');
+    $stmt = $db->prepare($sql);
+    $stmt->execute($valueArray);
+  }
+  catch (PDOException $e) {
+    $error = ["status" => "error", "error" => $e->getMessage()];
+    return $response->withJson($error);
+  }
+
+  return $this->response->withJson(["status" => "success"]);
+});

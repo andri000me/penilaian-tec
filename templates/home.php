@@ -17,7 +17,7 @@
 
       </div>
       <form id="submitForm">
-        <span id="submitButton" onclick="submitQuiz();" class="btn btn-primary">Kirim jawaban</span>
+        <span id="submitButton" onclick="submitQuiz();" class="btn btn-primary">Kirim</span>
         <div class="invalid-feedback">
           Ada yang belum diisi
         </div>
