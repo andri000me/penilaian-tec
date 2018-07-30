@@ -3,8 +3,8 @@
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-define("BASE_URL", "http://localhost/Server/nilai");
-define("SERVER_URL", "http://localhost/Server/kader/public/index.php");
+define("BASE_URL", getenv("baseUrl"));
+define("SERVER_URL", getenv("serverUrl"));
 
 // Routes
 
