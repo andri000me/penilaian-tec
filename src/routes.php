@@ -16,10 +16,29 @@ $app->get('/', function (Request $request, Response $response, array $args) {
 
 $app->post('/submitScore', function (Request $request, Response $response, array $args) {
   $scores = $request->getParam("scores");
+  $token = $request->getParam("token");
   $uid = $request->getParam("uid");
 
-  $sql = "INSERT INTO `scores` (`uid_from`,`uid_to`,`score`) VALUES ";
+  $opt = array(
+  'http'=>array(
+    'method'=>"GET",
+    'header'=>"Authorization: bearer ".$token . "\r\n")
+  );
 
+  $context = stream_context_create($opt);
+
+  $url = SERVER_URL . "/api/verifyToken/".$uid;
+
+  $verify = file_get_contents($url, false, $context);
+
+  $data = json_decode($verify);
+
+  if ($data->status!="valid"){
+    $error = ["status" => "error", "error" => "token invalid"];
+    return $response->withJson($error);
+  }
+
+  $sql = "INSERT INTO `score`(`uid_from`,`uid_to`,`score`) VALUES ";
 
   $valueArray = [];
   $sqlArray = [];
@@ -29,7 +48,7 @@ $app->post('/submitScore', function (Request $request, Response $response, array
     $valueArray[] = $score["score"];
   }
 
-  $sql = $sql + implode(",", $sqlArray);
+  $sql = $sql . implode(",", $sqlArray);
 
   try {
     $db = $this->get('db');
