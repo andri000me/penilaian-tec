@@ -27,4 +27,4 @@
   </div>
 </div>
 
-<script src="js/home.js" defer="defer"></script>
+<script src="<?=BASE_URL?>/js/home.js" defer="defer"></script>

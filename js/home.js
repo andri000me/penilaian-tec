@@ -1,4 +1,5 @@
-memberCount = 0;
+var memberCount = 0;
+var scoringItems;
 
 function addUserCard(data){
   memberCount++;
@@ -10,13 +11,32 @@ function addUserCard(data){
           <img class="mx-auto" id="profile" src="`+SERVER_URL+"/../uploads/profile/"+data.profile_picture+`">
         </div>
         <form class="form-inline col-sm-8 my-auto">
-          <div class="form-group col-10">
-            <label for="slider-`+memberCount+`">Nilai</label>
-            <input id="slider-`+memberCount+`" data-uid="`+ data.id +`" type="range" class="form-control-range" min=1 max=10 value=5></input>
-          </div>
-          <div class="form-group col-2">
-            <input type="number" class="form-control w-100 text-center" id="text-slider-`+memberCount+`" value=5>
-          </div>
+          `;
+  var currentCat = "";
+  for (i=0; i< scoringItems.length;i++){
+    if(currentCat!=scoringItems[i].catName){
+      cardHTML += `
+      <div class="col-12">
+        <h4 class="mt-3">`+scoringItems[i].catName+`</h4>
+        <hr/>
+        <p>`+scoringItems[i].description+`</p>
+
+      </div>`;
+
+      currentCat = scoringItems[i].catName;
+    }
+    cardHTML += `
+      <div class="form-group col-8">
+      <label for="slider-`+memberCount+`">`+ scoringItems[i].itemName +`</label>
+      <input id="slider-`+memberCount+`" data-uid="`+ data.id +`" data-item-id="`+scoringItems[i].itemId+`" type="range" class="form-control-range" min=1 max=10 value=5></input>
+      </div>
+      <div class="form-group col-4">
+        <input type="number" class="form-control w-100 text-center" id="text-slider-`+memberCount+`" value=5>
+      </div>
+    `;
+  }
+  cardHTML +=
+          `
         </form>
       </div>
     </div>`;
@@ -87,6 +107,42 @@ function submitScore(){
   });
 }
 
+function loadGroupInfo(){
+  $.ajax({
+      method: "GET",
+      url: SERVER_URL+"/api/group/"+Cookies.get("gid"),
+      headers: {"Authorization": "Bearer " + Cookies.get("token")}
+    }).done(function( msg ) {
+      if(typeof msg.error != "undefined"){
+        $("#loaderAnim").remove();
+        $("#loadText").html("Error : " + msg.error.text);
+      }else{
+        loadScoringItem();
+      }
+
+    }).fail(function( jqXHR, textStatus ) {
+      alert("Connection or server error : "+textStatus+"/"+jqXHR.statusText);
+    });
+}
+
+function loadScoringItem(){
+  $.ajax({
+      method: "GET",
+      url: BASE_URL+"/index.php/getScoringItem/"+Cookies.get("gid"),
+    }).done(function( msg ) {
+      if(msg.status == "error"){
+        $("#loaderAnim").remove();
+        $("#loadText").html("Error : " + msg.error.text);
+      }else{
+        scoringItems = msg.data;
+        loadUserCards();
+      }
+
+    }).fail(function( jqXHR, textStatus ) {
+      alert("Connection or server error : "+textStatus+"/"+jqXHR.statusText);
+    });
+}
+
 $( document ).ready(function() {
   reloadNavElement();
   if(!isLoggedIn()){
@@ -94,6 +150,6 @@ $( document ).ready(function() {
     $("#loaderAnim").remove();
     $("#loadText").html("Not logged in");
   }else {
-    loadUserCards();
+    loadGroupInfo();
   }
 });
