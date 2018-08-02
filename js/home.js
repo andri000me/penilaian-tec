@@ -1,8 +1,11 @@
 var memberCount = 0;
+var itemCount = 0;
 var scoringItems;
 
 function addUserCard(data){
   memberCount++;
+
+
   cardHTML = `<div class="card mb-3">
     <h5 class="card-header">`+memberCount+" - "+data.name+`</h5>
     <div class="card-body">
@@ -14,6 +17,7 @@ function addUserCard(data){
           `;
   var currentCat = "";
   for (i=0; i< scoringItems.length;i++){
+    itemCount++;
     if(currentCat!=scoringItems[i].catName){
       cardHTML += `
       <div class="col-12">
@@ -27,11 +31,11 @@ function addUserCard(data){
     }
     cardHTML += `
       <div class="form-group col-8">
-      <label for="slider-`+memberCount+`">`+ scoringItems[i].itemName +`</label>
-      <input id="slider-`+memberCount+`" data-uid="`+ data.id +`" data-item-id="`+scoringItems[i].itemId+`" type="range" class="form-control-range" min=1 max=10 value=5></input>
+      <label for="slider-`+itemCount+`">`+ scoringItems[i].itemName +`</label>
+      <input id="slider-`+itemCount+`" data-uid="`+ data.id +`" data-item-id="`+scoringItems[i].itemId+`" type="range" class="form-control-range" min=1 max=10 value=5></input>
       </div>
       <div class="form-group col-4">
-        <input type="number" class="form-control w-100 text-center" id="text-slider-`+memberCount+`" value=5>
+        <input type="number" class="form-control w-100 text-center" id="text-slider-`+itemCount+`" value=5>
       </div>
     `;
   }
@@ -79,13 +83,14 @@ function submitScore(){
 
   var dataScore = [];
 
-  for(var i = 1; i<=memberCount;i++){
+  for(var i = 1; i<=itemCount;i++){
     var score;
 
     score = $("#slider-"+i).val();
 
     dataScore[i-1] = {};
     dataScore[i-1].score = score;
+    dataScore[i-1].itemId = $("#slider-"+i).attr("data-item-id");
     dataScore[i-1].target = $("#slider-"+i).attr("data-uid");
   }
 

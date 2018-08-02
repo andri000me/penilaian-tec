@@ -57,13 +57,14 @@ $app->post('/submitScore', function (Request $request, Response $response, array
     return $response->withJson($error);
   }
 
-  $sql = "INSERT INTO `score`(`uidFrom`,`uidTo`,`score`) VALUES ";
+  $sql = "INSERT INTO `score`(`uidFrom`,`uidTo`,`itemId`,`score`) VALUES ";
 
   $valueArray = [];
   $sqlArray = [];
   foreach ($scores as $score) {
-    $sqlArray[] = "(". $uid . ", ?, ?)";
+    $sqlArray[] = "(". $uid . ", ?, ?, ?)";
     $valueArray[] = $score["target"];
+    $valueArray[] = $score["itemId"];
     $valueArray[] = $score["score"];
   }
 
