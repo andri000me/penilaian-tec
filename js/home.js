@@ -11,7 +11,7 @@ function addUserCard(data){
     <div class="card-body">
       <div class="row">
         <div class="col-sm-4">
-          <img class="mx-auto" id="profile" src="`+SERVER_URL+"/../uploads/profile/"+data.profile_picture+`">
+          <img class="mx-auto" id="profile" src="`+data.profile_picture_url+`">
         </div>
         <form class="form-inline col-sm-8 my-auto">
           `;
