@@ -14,6 +14,12 @@ $app->get('/', function (Request $request, Response $response, array $args) {
   return $this->renderer->render($response, "/footer.php", $args);
 });
 
+$app->get('/admin', function (Request $request, Response $response, array $args) {
+  $this->renderer->render($response, "/header.php", $args);
+  $this->renderer->render($response, "/admin-landing.php", $args);
+  return $this->renderer->render($response, "/footer.php", $args);
+});
+
 $app->get('/getScoringItem/{type}', function (Request $request, Response $response, array $args) {
   $sql = "SELECT scoringCategory.id AS catId,scoringCategory.name AS catName, description, scoringItem.id AS itemId, scoringItem.name AS itemName FROM `scoringCategory` INNER JOIN `scoringItem` ON `scoringCategory`.`id` = `scoringItem`.`category` WHERE targetType=:target";
 
