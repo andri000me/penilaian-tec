@@ -96,7 +96,7 @@ function submitScore(){
 
   $.ajax({
     method: "POST",
-    url: BASE_URL+"/index.php/submitScore",
+    url: BASE_URL+"/submitScore",
     data: {"scores": dataScore, "token": Cookies.get("token"),"uid":Cookies.get("uid")},
     dataType: 'json'
   }).done(function( msg ) {
@@ -133,7 +133,7 @@ function loadGroupInfo(){
 function loadScoringItem(){
   $.ajax({
       method: "GET",
-      url: BASE_URL+"/index.php/getScoringItem/"+Cookies.get("gid"),
+      url: BASE_URL+"/getScoringItem/"+Cookies.get("gid"),
     }).done(function( msg ) {
       if(msg.status == "error"){
         $("#loaderAnim").remove();

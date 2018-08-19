@@ -89,7 +89,7 @@ function submitCat(){
 
   $.ajax({
     method: "POST",
-    url: BASE_URL+"/index.php/category/edit",
+    url: BASE_URL+"/category/edit",
     data: {"catId": selected,
           "token": Cookies.get("token"),
           "uid":Cookies.get("uid"),
@@ -134,7 +134,7 @@ function getCat(catID){
 
   $.ajax({
     method: "GET",
-    url: BASE_URL+"/index.php/getCat/"+catID,
+    url: BASE_URL+"/getCat/"+catID,
     headers: {"Authorization": "Bearer " + Cookies.get("token")}
   }).done(function(msg){
     if(msg.status=="success"){
