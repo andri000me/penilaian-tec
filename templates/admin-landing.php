@@ -18,7 +18,6 @@
             </div>
             <img class="card-img-top" src="<?=BASE_URL?>/img/cat.png" alt="category">
             <div class="card-body">
-              <a href="<?=BASE_URL?>/admin/category/add" class="btn w-100 btn-primary">Add category</a>
               <a href="<?=BASE_URL?>/admin/category" class="mt-2 btn w-100 btn-primary">View Category</a>
             </div>
           </div>
