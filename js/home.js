@@ -31,7 +31,7 @@ function addUserCard(data){
     }
     cardHTML += `
       <div class="form-group col-8">
-      <label for="slider-`+itemCount+`">`+ scoringItems[i].itemName +`</label>
+      <label data-toggle="tooltip" title="`+scoringItems[i].itemDesc+`" for="slider-`+itemCount+`">`+ scoringItems[i].itemName +`</label>
       <input id="slider-`+itemCount+`" data-uid="`+ data.id +`" data-item-id="`+scoringItems[i].itemId+`" type="range" class="form-control-range" min=1 max=10 value=5></input>
       </div>
       <div class="form-group col-4">
@@ -55,7 +55,7 @@ function addGroupCard(value){
       <h3 class="card-title mt-3">`+value.name+`</h3>
     </div>
     <div class="card-body">
-      <span onclick="loadScoringItem(`+value.id+`)" class="mt-2 btn w-100 btn-primary">`+value.name+`</span>
+      <span onclick="loadScoringItem(`+value.type+`)" class="mt-2 btn w-100 btn-primary">`+value.name+`</span>
     </div>
   </div>
 
@@ -184,7 +184,7 @@ function loadScoringItem(id){
   $("#cardLoc").empty();
   $.ajax({
       method: "GET",
-      url: BASE_URL+"/getScoringItem/"+id,
+      url: BASE_URL+"/index.php/getScoringItem/"+id,
     }).done(function( msg ) {
       if(msg.status == "error"){
         $("#loaderAnim").hide();

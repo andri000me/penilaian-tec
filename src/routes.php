@@ -43,7 +43,7 @@ $app->get('/admin/category', function (Request $request, Response $response, arr
 });
 
 $app->get('/getScoringItem/{type}', function (Request $request, Response $response, array $args) {
-  $sql = "SELECT scoringCategory.id AS catId,scoringCategory.name AS catName, description, scoringItem.id AS itemId, scoringItem.name AS itemName FROM `scoringCategory` INNER JOIN `scoringItem` ON `scoringCategory`.`id` = `scoringItem`.`category` WHERE targetType=:target";
+  $sql = "SELECT scoringCategory.id AS catId,scoringCategory.name AS catName, scoringCategory.description, scoringItem.id AS itemId, scoringItem.name AS itemName, scoringItem.description AS itemDesc  FROM `scoringCategory` INNER JOIN `scoringItem` ON `scoringCategory`.`id` = `scoringItem`.`category` WHERE targetType=:target";
 
   try {
     $db = $this->get('db');
@@ -133,6 +133,8 @@ $app->post('/submitScore', function (Request $request, Response $response, array
 $app->post('/category/edit', function (Request $request, Response $response, array $args) {
   $cid = $request->getParam("catId");
   $token = $request->getParam("token");
+  $judul = $request->getParam("judul");
+  $desc = $request->getParam("desc");
   $items = $request->getParam("item");
   $uid = $request->getParam("uid");
 
@@ -162,8 +164,11 @@ $app->post('/category/edit', function (Request $request, Response $response, arr
 
   // $sql = "INSERT INTO `score`(`uidFrom`,`uidTo`,`itemId`,`score`) VALUES ";
 
-  $sql = "";
+  $sql = "UPDATE `scoringCategory` SET `name`=?, `description`=? WHERE `id`= ?;";
   $valueArray = [];
+  $valueArray[] = $judul;
+  $valueArray[] = $desc;
+  $valueArray[] = $cid;
 
   foreach ($items as $item) {
     if($item["id"]==-99){

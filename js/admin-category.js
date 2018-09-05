@@ -24,7 +24,12 @@ function editCat(){
                 <div class="mb-3 hidden-md-up"></div>
                 <div class="row align-items-center">
                 <div class="col-12">
-                  <h3 class="text-md-left text-center">`+$("#cat-"+selected).html()+`</h3>
+                  <div class="row">
+                    <input maxlength="25" type="text" id="editJudul" class="col-12 form-control" value="`+$("#cat-"+selected).html()+`"></input>
+                  </div>
+                  <div class="row mt-3">
+                    <textarea id="editDesc" maxlength="100" class="col-12 form-control">`+$("#cat-"+selected).attr("data-desc")+`</textarea>
+                  </div>
                 </div>
               </div>
               <hr/>
@@ -89,17 +94,19 @@ function submitCat(){
 
   $.ajax({
     method: "POST",
-    url: BASE_URL+"/category/edit",
+    url: BASE_URL+"/index.php/category/edit",
     data: {"catId": selected,
           "token": Cookies.get("token"),
           "uid":Cookies.get("uid"),
-          "item":dataSend},
+          "item":dataSend,
+          "judul":$("#editJudul").val(),
+          "desc":$("#editDesc").val()},
     dataType: 'json'
   }).done(function( msg ) {
     if(typeof msg.status != "undefined"){
       if(msg.status == "success"){
           alert("Sukses");
-          location.reload;
+          location.reload();
       }
     }
 
@@ -134,7 +141,7 @@ function getCat(catID){
 
   $.ajax({
     method: "GET",
-    url: BASE_URL+"/getCat/"+catID,
+    url: BASE_URL+"/index.php/getCat/"+catID,
     headers: {"Authorization": "Bearer " + Cookies.get("token")}
   }).done(function(msg){
     if(msg.status=="success"){
@@ -145,7 +152,12 @@ function getCat(catID){
                     <div class="mb-3 hidden-md-up"></div>
                     <div class="row align-items-center">
                     <div class="col-md-8">
-                      <h3 class="text-md-left text-center">`+$("#cat-"+catID).html()+`</h3>
+                      <div class="row">
+                        <h3 class="col-12 text-md-left text-center">`+$("#cat-"+catID).html()+`</h3>
+                      </div>
+                      <div class="row">
+                        <p class="col-12 text-md-left text-center">`+$("#cat-"+catID).attr("data-desc")+`</p>
+                      </div>
                     </div>
                     <div class="dropdown text-center col-md-4">
                       <button onclick="editCat(`+catID+`)" class="btn btn-primary" type="button">
