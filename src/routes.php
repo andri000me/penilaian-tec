@@ -172,16 +172,18 @@ $app->post('/category/edit', function (Request $request, Response $response, arr
 
   foreach ($items as $item) {
     if($item["id"]==-99){
-      $sql .= "INSERT INTO `scoringItem` (`category`, `name`) VALUES (?, ?) ;";
+      $sql .= "INSERT INTO `scoringItem` (`category`, `name`,`description`) VALUES (?, ?, ?) ;";
       $valueArray[] = $cid;
       $valueArray[] = $item["value"];
+      $valueArray[] = $item["desc"];
     }else{
       if($item["value"]=="delete"){
         $sql .= "DELETE FROM `scoringItem` WHERE `scoringItem`.`id` = ? ;";
         $valueArray[] = $item["id"];
       }else{
-        $sql .= "UPDATE `scoringItem` SET `name` = ? WHERE `scoringItem`.`id` = ? ;";
+        $sql .= "UPDATE `scoringItem` SET `name` = ?, `description`=? WHERE `scoringItem`.`id` = ? ;";
         $valueArray[] = $item["value"];
+        $valueArray[] = $item["desc"];
         $valueArray[] = $item["id"];
       }
     }

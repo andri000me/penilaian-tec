@@ -37,6 +37,7 @@ function editCat(){
               <table class="table">
                 <thead>
                   <th>Nama</th>
+                  <th>Tooltip</th>
                   <th>Hapus</th>
                 </thead>
                 <tbody id="itemList">
@@ -46,7 +47,8 @@ function editCat(){
     itemCount = itemCount +1;
     dataHTML+=`
                   <tr id="item-`+itemCount+`">
-                    <td><textarea class="form-control catItemName" data-id="`+value.id+`" rows="1">`+value.name+`</textarea></td>
+                    <td><textarea class="form-control catItemName" data-desc-id="`+itemCount+`" data-id="`+value.id+`" maxlength=40  rows="1">`+value.name+`</textarea></td>
+                    <td><textarea class="form-control catItemDesc" id ="desc-`+itemCount+`" data-id="`+value.id+`" maxlength=100 rows="2">`+value.description+`</textarea></td>
                     <td><button onclick="deleteCat(`+itemCount+`)" class="btn btn-danger">X</button></td>
                   </tr>
     `;
@@ -78,7 +80,8 @@ function addCat(){
 
   dataHTML = `
     <tr id="item-`+itemCount+`">
-      <td><textarea class="form-control catItemName" data-id="-99" rows="1"></textarea></td>
+      <td><textarea class="form-control catItemName" data-desc-id="`+itemCount+`" data-id="-99" maxlength=40 rows="1"></textarea></td>
+      <td><textarea class="form-control catItemDesc" id="desc-`+itemCount+`" data-id="-99" maxlength=100 rows="2"></textarea></td>
       <td><button onclick="deleteCat(`+itemCount+`)" class="btn btn-danger">X</button></td>
     </tr>
 
@@ -89,7 +92,9 @@ function addCat(){
 function submitCat(){
 
   $(".catItemName").each(function( index ) {
-    dataSend.push({id:$(this).attr("data-id"),value:$(this).val()});
+    dataSend.push({id:$(this).attr("data-id"),
+                  value:$(this).val(),
+                  desc:$("#desc-"+$(this).attr("data-desc-id")).val()});
   });
 
   $.ajax({
@@ -171,6 +176,7 @@ function getCat(catID){
                     <thead>
                       <th>Id</th>
                       <th>Nama</th>
+                      <th>Tooltip</th>
                     </thead>
                     <tbody>
       `;
@@ -180,6 +186,7 @@ function getCat(catID){
                       <tr>
                         <th>`+value.id+`</th>
                         <td>`+value.name+`</td>
+                        <td>`+value.description+`</td>
                       </tr>
         `;
 
