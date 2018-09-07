@@ -48,14 +48,60 @@ function addUserCard(data){
   $("#cardLoc").append(cardHTML);
 }
 
-function loadUserCards(){
+function addGroupCard(value){
+  cardHTML = `
+  <div class="card card-select text-center">
+    <div class="card-header">
+      <h3 class="card-title mt-3">`+value.name+`</h3>
+    </div>
+    <div class="card-body">
+      <span onclick="loadScoringItem(`+value.id+`)" class="mt-2 btn w-100 btn-primary">`+value.name+`</span>
+    </div>
+  </div>
+
+  `;
+
+  $("#groupDeck").append(cardHTML);
+}
+
+function loadGroupCards(){
   $.ajax({
       method: "GET",
-      url: SERVER_URL+"/api/group/"+Cookies.get("gid")+"/members",
+      url: SERVER_URL+"/api/user/"+Cookies.get("uid")+"/group",
       headers: {"Authorization": "Bearer " + Cookies.get("token")}
     }).done(function( msg ) {
       if(typeof msg.error != "undefined"){
-        $("#loaderAnim").remove();
+        $("#loaderAnim").hide();
+        $("#loadText").html("Error : " + msg.error.text);
+      }else{
+        if(msg.length==0){
+          $("#loadText").html("Error : Not registered in any group");
+        }
+
+        $("#cardLoc").empty();
+        $("#cardLoc").append(`<div id="groupDeck" class="card-deck mx-auto"></div>`);
+
+        $.each(msg, function( index, value ) {
+          loadGroupInfo(value)
+        });
+
+        $("#loaderAnim").hide();
+        $("#loadText").hide();
+      }
+
+    }).fail(function( jqXHR, textStatus ) {
+      alert("Connection or server error : "+textStatus+"/"+jqXHR.statusText);
+    });
+}
+
+function loadUserCards(gid){
+  $.ajax({
+      method: "GET",
+      url: SERVER_URL+"/api/group/"+gid+"/members",
+      headers: {"Authorization": "Bearer " + Cookies.get("token")}
+    }).done(function( msg ) {
+      if(typeof msg.error != "undefined"){
+        $("#loaderAnim").hide();
         $("#loadText").html("Error : " + msg.error.text);
       }else{
         $.each(msg, function( index, value ) {
@@ -67,8 +113,8 @@ function loadUserCards(){
         });
 
 
-        $("#loaderAnim").remove();
-        $("#loadText").remove();
+        $("#loaderAnim").hide();
+        $("#loadText").hide();
       }
 
     }).fail(function( jqXHR, textStatus ) {
@@ -112,17 +158,17 @@ function submitScore(){
   });
 }
 
-function loadGroupInfo(){
+function loadGroupInfo(value){
   $.ajax({
       method: "GET",
-      url: SERVER_URL+"/api/group/"+Cookies.get("gid"),
+      url: SERVER_URL+"/api/group/"+value.gid,
       headers: {"Authorization": "Bearer " + Cookies.get("token")}
     }).done(function( msg ) {
       if(typeof msg.error != "undefined"){
-        $("#loaderAnim").remove();
+        $("#loaderAnim").hide();
         $("#loadText").html("Error : " + msg.error.text);
       }else{
-        loadScoringItem();
+        addGroupCard(msg);
       }
 
     }).fail(function( jqXHR, textStatus ) {
@@ -130,17 +176,22 @@ function loadGroupInfo(){
     });
 }
 
-function loadScoringItem(){
+function loadScoringItem(id){
+  $("#loaderAnim").show();
+  $("#loadText").html("Loading");
+  $("#loadText").show();
+
+  $("#cardLoc").empty();
   $.ajax({
       method: "GET",
-      url: BASE_URL+"/getScoringItem/"+Cookies.get("gid"),
+      url: BASE_URL+"/getScoringItem/"+id,
     }).done(function( msg ) {
       if(msg.status == "error"){
-        $("#loaderAnim").remove();
+        $("#loaderAnim").hide();
         $("#loadText").html("Error : " + msg.error.text);
       }else{
         scoringItems = msg.data;
-        loadUserCards();
+        loadUserCards(id);
       }
 
     }).fail(function( jqXHR, textStatus ) {
@@ -150,11 +201,12 @@ function loadScoringItem(){
 
 $( document ).ready(function() {
   reloadNavElement();
+  $("#submitForm").hide();
   if(!isLoggedIn()){
     console.log("Not logged in");
-    $("#loaderAnim").remove();
+    $("#loaderAnim").hide();
     $("#loadText").html("Not logged in");
   }else {
-    loadGroupInfo();
+    loadGroupCards();
   }
 });
