@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 02 Agu 2018 pada 23.09
--- Versi server: 5.7.22-0ubuntu18.04.1
+-- Waktu pembuatan: 07 Sep 2018 pada 14.57
+-- Versi server: 8.0.12
 -- Versi PHP: 7.2.7-0ubuntu0.18.04.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -46,16 +46,8 @@ CREATE TABLE `scoringCategory` (
   `id` int(11) NOT NULL,
   `targetType` int(11) NOT NULL,
   `name` varchar(25) NOT NULL,
-  `description` text NOT NULL
+  `description` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `scoringCategory`
---
-
-INSERT INTO `scoringCategory` (`id`, `targetType`, `name`, `description`) VALUES
-(1, 1, 'Tugas Bukang', 'Buku angkatan digital yang keren'),
-(2, 1, 'Review biscal 1', 'Review materi biscal tentang The Lean Startup');
 
 -- --------------------------------------------------------
 
@@ -66,18 +58,9 @@ INSERT INTO `scoringCategory` (`id`, `targetType`, `name`, `description`) VALUES
 CREATE TABLE `scoringItem` (
   `id` int(11) NOT NULL,
   `category` int(11) NOT NULL,
-  `name` varchar(40) NOT NULL
+  `name` varchar(40) NOT NULL,
+  `description` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `scoringItem`
---
-
-INSERT INTO `scoringItem` (`id`, `category`, `name`) VALUES
-(1, 1, 'Jumlah'),
-(2, 1, 'Keniatan'),
-(3, 2, 'Panjang'),
-(4, 2, 'Menarik');
 
 --
 -- Indexes for dumped tables
@@ -115,13 +98,13 @@ ALTER TABLE `score`
 -- AUTO_INCREMENT untuk tabel `scoringCategory`
 --
 ALTER TABLE `scoringCategory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `scoringItem`
 --
 ALTER TABLE `scoringItem`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
