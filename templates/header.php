@@ -30,7 +30,7 @@
     <div class="container">
     <a class="navbar-brand" href="<?=BASE_URL?>">
         <img src="<?=BASE_URL?>/img/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
-        Penlianan TEC 2018
+        Penilaian TEC 2018
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".mobile-open" aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
