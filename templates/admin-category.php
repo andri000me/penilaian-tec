@@ -4,7 +4,11 @@
   <div class="row">
     <div class="col-md-4">
       <div class="card">
-        <h3 class="card-header">Daftar Penilaian</h3>
+        <div class="card-header">
+          <h3>Daftar Penilaian</h3>
+          <span class="btn btn-success" onclick="newCat()">New</span>
+        </div>
+
         <div class="card-body px-1">
           <ul id="catList" class="list-group">
             <?php

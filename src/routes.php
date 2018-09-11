@@ -165,12 +165,36 @@ $app->post('/category/edit', function (Request $request, Response $response, arr
 
   // $sql = "INSERT INTO `score`(`uidFrom`,`uidTo`,`itemId`,`score`) VALUES ";
 
-  $sql = "UPDATE `scoringCategory` SET `name`=?, `description`=?,`target`=? WHERE `id`= ?;";
-  $valueArray = [];
-  $valueArray[] = $judul;
-  $valueArray[] = $desc;
-  $valueArray[] = $target;
-  $valueArray[] = $cid;
+  if($cid==9999){
+    $sql = "INSERT INTO `scoringCategory` (`name`,`description`,`target`) VALUES (?,?,?);";
+    $valueArray = [];
+    $valueArray[] = $judul;
+    $valueArray[] = $desc;
+    $valueArray[] = $target;
+
+    try {
+      $db = $this->get('db');
+      $stmt = $db->prepare($sql);
+      $stmt->execute($valueArray);
+      $cid = $db->lastInsertId();
+    }
+    catch (PDOException $e) {
+      $error = ["status" => "error", "error" => $e->getMessage()];
+      return $response->withJson($error);
+    }
+
+    $sql = "";
+    $valueArray = [];
+  }else{
+    $sql = "UPDATE `scoringCategory` SET `name`=?, `description`=?,`target`=? WHERE `id`= ?;";
+    $valueArray = [];
+    $valueArray[] = $judul;
+    $valueArray[] = $desc;
+    $valueArray[] = $target;
+    $valueArray[] = $cid;
+  }
+
+
 
   foreach ($items as $item) {
     if($item["id"]==-99){

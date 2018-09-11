@@ -13,6 +13,8 @@ var dataSend = [];
 
 var selectedGroup;
 
+var newMode = false;
+
 //Set sorting method
 function sortScore(type){
   if(sortedBy != type){
@@ -24,6 +26,29 @@ function sortScore(type){
 function selectGroup(id,name){
   $("#dropdownKel").html(name);
   selectedGroup = id;
+}
+
+function newCat(){
+  if(!newMode){
+    //Hapus centering
+    $("#catDataLoc").removeClass("my-auto");
+    
+    newMode = true;
+    dataHTML = `<span onclick="getCat(9999);" data-desc="Deskripsi" data-kel="1" id="cat-9999"
+    class="list-group-item list-group-item-action">Kategori baru</span>`;
+
+    $("#catList").append(dataHTML);
+    if(selected!=0){
+      //Deselect last selected user
+      $("#cat-"+selected).removeClass("active");
+    }
+    selected=9999;
+    $("#cat-9999").addClass("active");
+    currentCat = [];
+    editCat();
+    $("#dropdownKel").html("Select");
+  }
+
 }
 
 function getAllGroupsList(){
