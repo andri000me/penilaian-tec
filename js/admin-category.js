@@ -171,6 +171,12 @@ function getCat(catID){
                     </div>
                   </div>
                   <hr/>
+                  <div class="row">
+                    <p class="col-12"><b>Kelompok</b></p>
+                  </div>
+                  <div class="row">
+                    <p id="groupLoc" class="col-12">Loading...</p>
+                  </div>
                   <div class="table-responsive-sm">
                   <table class="table">
                     <thead>
@@ -180,6 +186,8 @@ function getCat(catID){
                     </thead>
                     <tbody>
       `;
+
+      loadGroupInfo($("#cat-"+catID).attr("data-kel"));
 
       $.each(msg.data,function(index,value){
         dataHTML+=`
@@ -211,10 +219,22 @@ function getCat(catID){
       $("#catDataLoc").append(dataHTML);
     }
 
-
   }).fail(function(jqXHR,textStatus){
     //connection or server fail
     alert("Failed to get category : "+textStatus+"/"+jqXHR.statusText);
   });
 
+}
+
+function loadGroupInfo(value){
+  $.ajax({
+      method: "GET",
+      url: SERVER_URL+"/api/group/"+value,
+      headers: {"Authorization": "Bearer " + Cookies.get("token")}
+    }).done(function( msg ) {
+      $("#groupLoc").html(msg.name);
+
+    }).fail(function( jqXHR, textStatus ) {
+      alert("Connection or server error : "+textStatus+"/"+jqXHR.statusText);
+    });
 }

@@ -10,7 +10,7 @@
             <?php
               foreach ($items as $item) {
                 echo<<<HTML
-                <span onclick="getCat({$item['id']});" data-desc="{$item['description']}" id="cat-{$item['id']}"
+                <span onclick="getCat({$item['id']});" data-desc="{$item['description']}" data-kel="{$item['target']}" id="cat-{$item['id']}"
                 class="list-group-item list-group-item-action">{$item['name']}</span>
 HTML;
               }

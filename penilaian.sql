@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 07 Sep 2018 pada 14.57
+-- Waktu pembuatan: 11 Sep 2018 pada 16.50
 -- Versi server: 8.0.12
 -- Versi PHP: 7.2.7-0ubuntu0.18.04.2
 
@@ -44,7 +44,7 @@ CREATE TABLE `score` (
 
 CREATE TABLE `scoringCategory` (
   `id` int(11) NOT NULL,
-  `targetType` int(11) NOT NULL,
+  `target` int(11) NOT NULL,
   `name` varchar(25) NOT NULL,
   `description` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

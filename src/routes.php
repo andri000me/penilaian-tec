@@ -43,7 +43,7 @@ $app->get('/admin/category', function (Request $request, Response $response, arr
 });
 
 $app->get('/getScoringItem/{type}', function (Request $request, Response $response, array $args) {
-  $sql = "SELECT scoringCategory.id AS catId,scoringCategory.name AS catName, scoringCategory.description, scoringItem.id AS itemId, scoringItem.name AS itemName, scoringItem.description AS itemDesc  FROM `scoringCategory` INNER JOIN `scoringItem` ON `scoringCategory`.`id` = `scoringItem`.`category` WHERE targetType=:target";
+  $sql = "SELECT scoringCategory.id AS catId,scoringCategory.name AS catName, scoringCategory.description, scoringItem.id AS itemId, scoringItem.name AS itemName, scoringItem.description AS itemDesc  FROM `scoringCategory` INNER JOIN `scoringItem` ON `scoringCategory`.`id` = `scoringItem`.`category` WHERE target=:target";
 
   try {
     $db = $this->get('db');
