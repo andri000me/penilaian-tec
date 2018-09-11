@@ -11,12 +11,39 @@ var itemCount = 0;
 
 var dataSend = [];
 
+var selectedGroup;
+
 //Set sorting method
 function sortScore(type){
   if(sortedBy != type){
     sortedBy = type;
     getQuizData(selected);
   }
+}
+
+function selectGroup(id,name){
+  $("#dropdownKel").html(name);
+  selectedGroup = id;
+}
+
+function getAllGroupsList(){
+  $.ajax({
+      method: "GET",
+      url: SERVER_URL+"/api/groups",
+      headers: {"Authorization": "Bearer " + Cookies.get("token")}
+    }).done(function( msg ) {
+      dataHTML="";
+      $.each(msg,function(index,value){
+        dataHTML+=`<span class="dropdown-item" onclick="selectGroup(`+value.id+`,'`+value.name+`')">`+ value.name+`</span>`;
+        if(selectedGroup==value.id){
+          $("#dropdownKel").html(value.name);
+        }
+      });
+      $("#dropdownList").append(dataHTML);
+
+    }).fail(function( jqXHR, textStatus ) {
+      alert("Connection or server error : "+textStatus+"/"+jqXHR.statusText);
+    });
 }
 
 function editCat(){
@@ -33,6 +60,13 @@ function editCat(){
                 </div>
               </div>
               <hr/>
+              <div class="row">
+                <button id="dropdownKel" class="ml-3 mb-3 btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Loading...</button>
+                <div id="dropdownList" class="dropdown-menu">`;
+    getAllGroupsList();
+
+    dataHTML += `</div>
+              </div>
               <div class="table-responsive-sm">
               <table class="table">
                 <thead>
@@ -104,6 +138,7 @@ function submitCat(){
           "token": Cookies.get("token"),
           "uid":Cookies.get("uid"),
           "item":dataSend,
+          "group":selectedGroup,
           "judul":$("#editJudul").val(),
           "desc":$("#editDesc").val()},
     dataType: 'json'
@@ -233,6 +268,7 @@ function loadGroupInfo(value){
       headers: {"Authorization": "Bearer " + Cookies.get("token")}
     }).done(function( msg ) {
       $("#groupLoc").html(msg.name);
+      selectedGroup = value;
 
     }).fail(function( jqXHR, textStatus ) {
       alert("Connection or server error : "+textStatus+"/"+jqXHR.statusText);

@@ -135,6 +135,7 @@ $app->post('/category/edit', function (Request $request, Response $response, arr
   $token = $request->getParam("token");
   $judul = $request->getParam("judul");
   $desc = $request->getParam("desc");
+  $target = $request->getParam("group");
   $items = $request->getParam("item");
   $uid = $request->getParam("uid");
 
@@ -164,10 +165,11 @@ $app->post('/category/edit', function (Request $request, Response $response, arr
 
   // $sql = "INSERT INTO `score`(`uidFrom`,`uidTo`,`itemId`,`score`) VALUES ";
 
-  $sql = "UPDATE `scoringCategory` SET `name`=?, `description`=? WHERE `id`= ?;";
+  $sql = "UPDATE `scoringCategory` SET `name`=?, `description`=?,`target`=? WHERE `id`= ?;";
   $valueArray = [];
   $valueArray[] = $judul;
   $valueArray[] = $desc;
+  $valueArray[] = $target;
   $valueArray[] = $cid;
 
   foreach ($items as $item) {
