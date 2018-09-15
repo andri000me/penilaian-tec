@@ -32,7 +32,7 @@ function newCat(){
   if(!newMode){
     //Hapus centering
     $("#catDataLoc").removeClass("my-auto");
-    
+
     newMode = true;
     dataHTML = `<span onclick="getCat(9999);" data-desc="Deskripsi" data-kel="1" id="cat-9999"
     class="list-group-item list-group-item-action">Kategori baru</span>`;
@@ -158,7 +158,7 @@ function submitCat(){
 
   $.ajax({
     method: "POST",
-    url: BASE_URL+"/index.php/category/edit",
+    url: BASE_URL+"/category/edit",
     data: {"catId": selected,
           "token": Cookies.get("token"),
           "uid":Cookies.get("uid"),
@@ -206,7 +206,7 @@ function getCat(catID){
 
   $.ajax({
     method: "GET",
-    url: BASE_URL+"/index.php/getCat/"+catID,
+    url: BASE_URL+"/getCat/"+catID,
     headers: {"Authorization": "Bearer " + Cookies.get("token")}
   }).done(function(msg){
     if(msg.status=="success"){

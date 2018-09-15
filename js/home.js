@@ -184,7 +184,7 @@ function loadScoringItem(id){
   $("#cardLoc").empty();
   $.ajax({
       method: "GET",
-      url: BASE_URL+"/index.php/getScoringItem/"+id,
+      url: BASE_URL+"/getScoringItem/"+id,
     }).done(function( msg ) {
       if(msg.status == "error"){
         $("#loaderAnim").hide();
