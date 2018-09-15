@@ -1,6 +1,7 @@
 var memberCount = 0;
 var itemCount = 0;
 var scoringItems;
+var selecteGroup;
 
 function addUserCard(data){
   memberCount++;
@@ -143,13 +144,15 @@ function submitScore(){
   $.ajax({
     method: "POST",
     url: BASE_URL+"/submitScore",
-    data: {"scores": dataScore, "token": Cookies.get("token"),"uid":Cookies.get("uid")},
+    data: {"scores": dataScore, "token": Cookies.get("token"),"uid":Cookies.get("uid"),"gid":selected},
     dataType: 'json'
   }).done(function( msg ) {
     if(typeof msg.status != "undefined"){
       if(msg.status == "success"){
           alert("Sukses");
           window.location.href = BASE_URL + "/";
+      }else{
+        alert(msg.error);
       }
     }
 
@@ -159,6 +162,8 @@ function submitScore(){
 }
 
 function loadGroupInfo(value){
+  selected = value.gid;
+
   $.ajax({
       method: "GET",
       url: SERVER_URL+"/api/group/"+value.gid,
@@ -193,6 +198,8 @@ function loadScoringItem(id){
         scoringItems = msg.data;
         loadUserCards(id);
       }
+
+      $("#submitForm").show();
 
     }).fail(function( jqXHR, textStatus ) {
       alert("Connection or server error : "+textStatus+"/"+jqXHR.statusText);

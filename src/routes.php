@@ -80,10 +80,11 @@ $app->get('/getCat/{catId}', function (Request $request, Response $response, arr
 
 });
 
-$app->post('/submitScore', function (Request $request, Response $response, array $args) {
+$app->post('/submitScore', function (Request $request, Response $response, array $args) use ($app)  {
   $scores = $request->getParam("scores");
   $token = $request->getParam("token");
   $uid = $request->getParam("uid");
+  $gid = $request->getParam("gid");
 
   $opt = array(
   'http'=>array(
@@ -100,9 +101,24 @@ $app->post('/submitScore', function (Request $request, Response $response, array
   $data = json_decode($verify);
 
   if ($data->status!="valid"){
-    $error = ["status" => "error", "error" => "token invalid"];
+    $error = ["status" => "error", "error" => "Token invalid"];
     return $response->withJson($error);
   }
+
+  $url = SERVER_URL . "/api/user/".$uid."/group";
+
+  $verify = file_get_contents($url, false, $context);
+
+  $data = json_decode($verify);
+
+  if (!in_array($gid, array_column($data,"gid"))) {
+    $error = ["status" => "error", "error" => "Not allowed"];
+    return $response->withJson($error);
+  }
+
+  $res = $app->subRequest('GET', 'api/getScoringItem/'.$gid);
+  $json = $res->getBody();
+  $verifier = json_decode($json,true);
 
   $sql = "INSERT INTO `score`(`uidFrom`,`uidTo`,`itemId`,`score`) VALUES ";
 
@@ -111,6 +127,7 @@ $app->post('/submitScore', function (Request $request, Response $response, array
   foreach ($scores as $score) {
     $sqlArray[] = "(". $uid . ", ?, ?, ?)";
     $valueArray[] = $score["target"];
+    if(!in_array($score["itemId"],array_column($verifier,"catId")))
     $valueArray[] = $score["itemId"];
     $valueArray[] = $score["score"];
   }
