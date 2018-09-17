@@ -56,7 +56,7 @@ function addGroupCard(value){
       <h3 class="card-title mt-3">`+value.name+`</h3>
     </div>
     <div class="card-body">
-      <span onclick="loadScoringItem(`+value.type+`)" class="mt-2 btn w-100 btn-primary">`+value.name+`</span>
+      <span onclick="loadScoringItem(`+value.id+`)" class="mt-2 btn w-100 btn-primary">`+value.name+`</span>
     </div>
   </div>
 
